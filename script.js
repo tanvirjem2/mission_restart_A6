@@ -27,12 +27,32 @@ const displayCategories = (categories) => {
     categoryContainer.innerHTML = '';
 
     categories.forEach(category => {
+
         const btnDiv = document.createElement('div');
-        btnDiv.innerHTML = `
-        <button class="btn rounded-3xl">${category}</button>     
-        `
-        categoryContainer.append(btnDiv);
-    })
+
+        const button = document.createElement('button');
+        button.className = "btn rounded-3xl";
+        button.innerText = category;
+
+        // Professional event listener
+        button.addEventListener('click', () => {
+            loadCategoryProducts(category);
+        });
+
+        btnDiv.appendChild(button);
+        categoryContainer.appendChild(btnDiv);
+    });
+}
+
+const loadCategoryProducts = category => {
+    const url = `https://fakestoreapi.com/products/category/${encodeURIComponent(category)}`;
+    fetch(url)
+        .then(res => res.json())
+        .then(data => displayCategoryProducts(data))
+}
+
+const displayCategoryProducts = (products) => {
+    console.log(products)
 }
 
 // --------------------------------------------------------------------
